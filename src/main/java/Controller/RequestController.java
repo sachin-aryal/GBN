@@ -12,7 +12,7 @@ public class RequestController extends AbstractVerticle{
     public static void main(String[] args) {
 
         DataDictionary.loadDictionary();
-        System.out.println("Loading Dictionary Completed and Not Deploying New Verticle");
+        System.out.println("Loading Dictionary Completed and Now Deploying New Verticle");
         Vertx vertx = Vertx.vertx();
         vertx.deployVerticle(new RequestController());
 

@@ -1,6 +1,9 @@
 package Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Hashtable;
+import java.util.List;
 
 /**
  * Author: SACHIN
@@ -9,7 +12,9 @@ import java.util.Hashtable;
 public class DataDictionary {
 
 
-    private static Hashtable<String,Double> wordDictionary = new Hashtable<>();
+    public static Hashtable<String,Double> wordDictionary = new Hashtable<>();
+    public static List<String> wordsTobeIgnored = new ArrayList<>(Arrays.asList("the","is","a","an"));
+
 
     public static void loadDictionary(){
 
