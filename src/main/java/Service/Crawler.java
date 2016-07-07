@@ -67,8 +67,6 @@ public class Crawler{
 
                     if(numberOfNews<newsStat.noOfNews){
                         executorService.execute(new PolarityCalculator(newsType,news,newsStat));
-                    }else{
-                        executorService.shutdown();
                     }
 
                 } catch (IOException e) {
@@ -76,6 +74,7 @@ public class Crawler{
                 }
             }
         });
+        executorService.shutdown();
         return newsList;
     }
 
