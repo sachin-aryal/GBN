@@ -12,7 +12,11 @@ public class RequestController extends AbstractVerticle{
     public static void main(String[] args) {
 
         DataDictionary.loadDictionary();
-        System.out.println("Loading Dictionary Completed and Now Deploying New Verticle");
+        if (DataDictionary.wordDictionary.size()==0){
+            System.out.println("Please View the Error Log and Restart Again");
+            System.exit(0);
+        }
+        System.out.println("Deploying Verticle");
         Vertx vertx = Vertx.vertx();
         vertx.deployVerticle(new RequestController());
 
@@ -20,6 +24,6 @@ public class RequestController extends AbstractVerticle{
 
     @Override
     public void start() throws Exception {
-
+        System.out.println("Verticle Deployed Successfully.");
     }
 }
