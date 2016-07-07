@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GBN</title>
+    <script src="Js/jquery-1.11.2.min.js"></script>
+    <script src="Js/bootstrap.min.js"></script>
+    <link href="Css/bootstrap.min.css" rel="stylesheet"/>
+    <script type="text/javascript">
+        function fetchNews() {
+
+            var noOfNews = $("#noOfNews").val();
+            var newsType = $("#newsType").val();
+
+            $.ajax({
+                type:"POST",
+                url:"http://localhost:9000//fetchNews",
+                data:{noOfNews:noOfNews,newsType:newsType},
+                success:function (data) {
+                    
+                },
+                error:function (err) {
+
+                }
+            })
+
+        }
+    </script>
+
+</head>
+<body>
+    <fieldset>
+        <legend>
+            <input type="text" name="noOfNews" id="noOfNews" placeholder="Number of News"/>
+            <select name="newsType" id="newsType">
+                <option>Good</option>
+                <option>Bad</option>
+            </select>
+            <button onclick="fetchNews()">Submit</button>
+        </legend>
+    </fieldset>
+</body>
+</html>
