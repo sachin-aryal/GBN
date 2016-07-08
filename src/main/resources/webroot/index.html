@@ -26,18 +26,82 @@
 
         }
     </script>
+    <style>
+        body{
+            padding: 0;
+            margin: 0;
+            font-family: Helvetica,Arial;
+            font-size: 15px;
 
+            background-color:#eee;
+        }
+        .title{
+            height: 86px;
+            padding: 15px 20px;
+            margin:0 auto;
+            display: block;
+            box-sizing: border-box;
+            text-align: center;
+            font-size: 40px;
+            color:#fff;
+            background-color: #6db2f0;
+            margin-bottom: 25px;
+        }
+        .wrapper{
+            margin:0 auto;
+            padding: 0 20px;
+        }
+        .container{
+            height: auto;
+            padding: 5px;
+            margin-top: 160px;
+            background-color: #488d81;
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+        }
+        .form-login{
+            max-width:330px;
+            padding: 15px;
+            margin:0 auto;
+        }
+        .form-login .form-control{
+            position: relative;
+            font-size: 16px;
+            height: auto;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .form-login input{
+            margin-bottom: 25px;
+            border-radius: 0;
+        }
+        .btn{
+            margin-top: 25px;
+            background-color: #6db2f0;
+        }
+    </style>
 </head>
 <body>
-    <fieldset>
-        <legend>
-            <input type="text" name="noOfNews" id="noOfNews" placeholder="Number of News"/>
-            <select name="newsType" id="newsType">
-                <option>Good</option>
-                <option>Bad</option>
-            </select>
-            <button onclick="fetchNews()">Submit</button>
-        </legend>
-    </fieldset>
+
+    <div class="wrapper">
+        <div class="row">
+            <div class="container col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+                <div class="title">
+                    G B N
+                </div>
+                <fieldset class="form-login">
+                    <legend>
+                        <input type="text" name="noOfNews" id="noOfNews" class="form-control" placeholder="Number of News"/>
+                        <select name="newsType" id="newsType" class="form-control">
+                            <option>--Select News Type--</option>
+                            <option>Good</option>
+                            <option>Bad</option>
+                        </select>
+                        <button class="btn btn-lg btn-primary btn-block button" onclick="fetchNews()">Submit</button>
+                    </legend>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
