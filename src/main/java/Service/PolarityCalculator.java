@@ -4,6 +4,7 @@ import Model.News;
 import Model.NewsStat;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ public class PolarityCalculator extends Thread{
         this.newsType = newsType;
         this.news = news;
         this.newsStat = newsStat;
-
+        DataDictionary.loadDictionary();
     }
 
     @Override
@@ -51,9 +52,28 @@ public class PolarityCalculator extends Thread{
         List<String> tokenizedTitle = getTokenizedWords(news.getTitle());
         List<String> tokenizedContent = getTokenizedWords(news.getDescription());
 
-        //// TODO: 7/7/16 Calculating Polarity for News Titlt and Content
-
-
+        //// TODO: 7/7/16 Calculating Polarity for News Title and Content
+        //DataDictionary is empty here even after defloyuing RequestController Verticle
+        for (String item:tokenizedTitle) {
+            /*System.out.println("item "+item);
+            System.out.println("size "+DataDictionary.wordDictionary.size());
+            System.out.println("polarity "+DataDictionary.wordDictionary.get(item));*/
+            if (DataDictionary.wordDictionary.get(item)!=null){
+//                System.out.print("Item is"+item+" ");
+//                System.out.println("Item Polarity"+DataDictionary.wordDictionary.get(item)+" ");
+                polarity+= DataDictionary.wordDictionary.get(item);
+//                System.out.println(polarity);
+            }
+        }
+        for (String item:tokenizedContent){
+            if (DataDictionary.wordDictionary.get(item)!=null){
+//                System.out.print("Item is"+item+" ");
+//                System.out.println("Item Polarity"+DataDictionary.wordDictionary.get(item)+" ");
+                polarity+= DataDictionary.wordDictionary.get(item);
+//                System.out.println(polarity);
+            }
+        }
+        System.out.println(polarity);
 
         return polarity;
     }
@@ -67,15 +87,14 @@ public class PolarityCalculator extends Thread{
             word = word.trim().toLowerCase();
             if(word.contains(",")){
                 String[] splittedWords = word.split(",");
+//                System.out.println(splittedWords.length);
                 tokenizationCompleted.add(splittedWords[0].replaceAll("[^a-z]",""));
-                tokenizationCompleted.add(splittedWords[1].replaceAll("[^a-z]",""));
+//                tokenizationCompleted.add(splittedWords[1].replaceAll("[^a-z]",""));
             }else{
                 word = word.replaceAll("[^a-zA-Z]","");
                 tokenizationCompleted.add(word);
             }
         }
-
         return tokenizationCompleted;
     }
-
 }

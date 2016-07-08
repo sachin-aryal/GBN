@@ -62,16 +62,19 @@ public class Crawler{
             if(newsUrl.contains(".html")){
                 News news = new News();
                 news.setTitle(newsTitle);
+
                 try {
                     news.setDescription(getUrlContent(newsUrl));
-
-                    if(numberOfNews<newsStat.noOfNews){
+                    //Changed below condition
+                    if(numberOfNews>newsStat.noOfNews){
                         executorService.execute(new PolarityCalculator(newsType,news,newsStat));
                     }
 
                 } catch (IOException e) {
                     System.out.println("Error Fetching Data from "+newsUrl);
                 }
+                System.out.println(news.getTitle());
+                System.out.println(news.getDescription());
             }
         });
         executorService.shutdown();
@@ -82,13 +85,14 @@ public class Crawler{
     public String getUrlContent(String url) throws IOException {
 
         String finalUrl = newsURL+url;
-        System.out.println("finalUrl = " + finalUrl);
+//        System.out.println("finalUrl = " + finalUrl);
         Document doc =  Jsoup.connect(finalUrl).get();
         Elements newsContent = doc.select(".content-wrapper");
         Elements pTags = newsContent.select("p");
         pTags.remove(pTags.size()-1);
         StringBuilder fullNews = new StringBuilder("");
         pTags.forEach(p->fullNews.append(p.text()));
+//        System.out.println(fullNews.toString());
         return fullNews.toString();
     }
 
