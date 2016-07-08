@@ -4,7 +4,6 @@ import Model.News;
 import Model.NewsStat;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -25,19 +24,19 @@ public class PolarityCalculator extends Thread{
     @Override
     public void run(){
 
-
-
         double polarity = getPolarity(news);
 
         if(newsType.equalsIgnoreCase("good")){
             if(polarity>0.0){
                 newsStat.noOfNews++;
                 newsStat.selectedNews.put(news.getTitle(),news.getDescription());
+                newsStat.newsPolarity.put(news.getTitle(),polarity);
             }
         }else{
             if(polarity<0.0){
                 newsStat.noOfNews++;
                 newsStat.selectedNews.put(news.getTitle(),news.getDescription());
+                newsStat.newsPolarity.put(news.getTitle(),polarity);
             }
         }
 
@@ -62,8 +61,6 @@ public class PolarityCalculator extends Thread{
                 polarity+= DataDictionary.wordDictionary.get(item);
             }
         }
-        System.out.println(polarity);
-
         return polarity;
     }
 

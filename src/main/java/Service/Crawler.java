@@ -10,8 +10,10 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 /**
  * Created by iam on 7/6/16.
@@ -26,11 +28,7 @@ public class Crawler{
 
         JsonObject news = new JsonObject();
         List<News> newsList = getNewsList(classifier,numberOfNews);
-        for(News n:newsList){
-            System.out.println("Title: "+n.getTitle());
-            System.out.println("Description: "+n.getDescription());
-            System.out.println();
-        }
+        newsList.forEach(n->news.put(n.getTitle(),n.getDescription()));
         return news;
     }
 
@@ -58,21 +56,35 @@ public class Crawler{
 
                 try {
                     news.setDescription(getUrlContent(newsUrl));
-                    //Changed below condition
-                    if(numberOfNews>newsStat.noOfNews){
-                        executorService.execute(new PolarityCalculator(newsType,news,newsStat));
-                    }
-
+                    executorService.execute(new PolarityCalculator(newsType,news,newsStat));
                 } catch (IOException e) {
                     System.out.println("Error Fetching Data from "+newsUrl);
                 }
             }
         });
         executorService.shutdown();
-
-        newsStat.selectedNews.forEach((key,val)->newsList.add(new News(key,val)));
-
+        setBestResult(newsList,newsStat,newsType,numberOfNews);
         return newsList;
+    }
+
+    public void setBestResult(List<News> newsList,NewsStat newsStat,String newsType,int noOfNews){
+        List<String> keys = null;
+        if(newsType.equalsIgnoreCase("good")){
+            keys = newsStat.newsPolarity.entrySet().stream()
+                    .sorted(Map.Entry.<String, Double>comparingByValue().reversed())
+                    .limit(noOfNews)
+                    .map(Map.Entry::getKey)
+                    .collect(Collectors.toList());
+        }else{
+            System.out.println(newsStat.newsPolarity);
+            keys = newsStat.newsPolarity.entrySet().stream()
+                    .sorted(Map.Entry.<String, Double>comparingByValue())
+                    .limit(noOfNews)
+                    .map(Map.Entry::getKey)
+                    .collect(Collectors.toList());
+        }
+        keys.forEach(key->newsList.add(new News(key,newsStat.selectedNews.get(key))));
+
     }
 
 

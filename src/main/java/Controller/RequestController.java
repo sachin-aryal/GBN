@@ -1,15 +1,12 @@
 package Controller;
 
-import Service.Crawler;
 import Service.DataDictionary;
 import Service.InitiateOperation;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Vertx;
-import io.vertx.ext.web.Route;
+import io.vertx.core.json.Json;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.StaticHandler;
-
-import java.util.List;
 
 /**
  * Created by iam on 7/6/16.
@@ -55,7 +52,11 @@ public class RequestController extends AbstractVerticle{
                objectFuture.complete(initiateOperation.getNewsData());
 
            },res->{
-               System.out.println("Result");
+               rtx.response().setChunked(true);
+               rtx.response().putHeader("content-type", "application/json; charset=utf-8");
+               rtx.response().write(Json.encodePrettily(res.result()));
+               System.out.println("Response Written Successfully. Now Closing Respone");
+               rtx.response().end();
            });
         });
 

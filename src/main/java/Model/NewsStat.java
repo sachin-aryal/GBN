@@ -9,4 +9,5 @@ import java.util.Map;
 public class NewsStat {
     public int noOfNews;
     public Map<String,String> selectedNews = new LinkedHashMap<>();
+    public Map<String,Double> newsPolarity = new LinkedHashMap<>();
 }

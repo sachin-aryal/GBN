@@ -11,20 +11,42 @@
 
             var noOfNews = $("#noOfNews").val();
             var newsType = $("#newsType").val();
-
+            $("#myModal").modal("show");
             $.ajax({
                 type:"POST",
                 url:"http://localhost:9000/fetchNews/"+noOfNews+"/"+newsType,
-//                data:{noOfNews:noOfNews,newsType:newsType},
                 success:function (data) {
-                    
+                    $("#news").empty();
+                    var newsNumber = 0;
+                    $.each(data,function(key,val){
+                        var id = makeid();
+                        var mainDiv = $("<div id='"+id+"' class='col-md-4 well'></div>");
+                        var title = "<div class='newsTitle'>"+key+"</div><hr>";
+                        var description = "<div class='newsContent'>"+val+"</div>";
+                        mainDiv.append(title);
+                        mainDiv.append(description);
+                        $("#news").append(mainDiv);
+                    });
                 },
                 error:function (err) {
-
+                    console.log("Error")
+                },complete:function(e){
+                    $("#myModal").modal("hide");
                 }
             })
 
         }
+        function makeid()
+        {
+            var text = "";
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+            for( var i=0; i < 5; i++ )
+                text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+            return text;
+        }
+
     </script>
     <style>
         body{
@@ -78,30 +100,54 @@
             margin-top: 25px;
             background-color: #6db2f0;
         }
+
+        .newsTitle {
+            color: blue;
+            text-align: center;
+        }
+
     </style>
 </head>
 <body>
 
-    <div class="wrapper">
-        <div class="row">
-            <div class="container col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
-                <div class="title">
-                    G B N
-                </div>
-                <fieldset class="form-login">
-                    <legend>
-                        <input type="text" name="noOfNews" id="noOfNews" class="form-control" placeholder="Number of News"/>
-                        <select name="newsType" id="newsType" class="form-control">
-                            <option>--Select News Type--</option>
-                            <option>Good</option>
-                            <option>Bad</option>
-                        </select>
-                        <button class="btn btn-lg btn-primary btn-block button" onclick="fetchNews()">Submit</button>
-                    </legend>
-                </fieldset>
+<div class="wrapper">
+    <div class="row">
+        <div class="container col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+            <div class="title">
+                G B N
             </div>
+            <fieldset class="form-login">
+                <legend>
+                    <input type="text" name="noOfNews" id="noOfNews" class="form-control" placeholder="Number of News"/>
+                    <select name="newsType" id="newsType" class="form-control">
+                        <option>--Select News Type--</option>
+                        <option>Good</option>
+                        <option>Bad</option>
+                    </select>
+                    <button class="btn btn-lg btn-primary btn-block button" onclick="fetchNews()">Submit</button>
+                </legend>
+            </fieldset>
         </div>
     </div>
+    <br><br><br>
+    <div class="row" id="news">
+
+    </div>
+
+
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>Loading Data.....</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</div>
 
 </body>
 </html>
