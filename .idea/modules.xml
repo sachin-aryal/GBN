@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/GBN.iml" filepath="$PROJECT_DIR$/GBN.iml" />
+      <module fileurl="file://$PROJECT_DIR$/org.gbn.product.iml" filepath="$PROJECT_DIR$/org.gbn.product.iml" />
     </modules>
   </component>
 </project>
