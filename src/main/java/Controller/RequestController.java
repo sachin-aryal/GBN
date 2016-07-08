@@ -2,6 +2,7 @@ package Controller;
 
 import Service.Crawler;
 import Service.DataDictionary;
+import Service.InitiateOperation;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Vertx;
 import io.vertx.ext.web.Route;
@@ -45,14 +46,16 @@ public class RequestController extends AbstractVerticle{
         router.route("/images/*").handler(StaticHandler.create("webroot/images"));
 
 
-        router.route("/fetchNews").handler(rtx->{
+        router.route("/fetchNews/:noOfNews/:newsType/*").handler(rtx->{
            vertx.executeBlocking(objectFuture -> {
 
                int numberOfNews = Integer.parseInt(rtx.request().getParam("noOfNews"));
                String newsType = rtx.request().getParam("newsType");
+               InitiateOperation initiateOperation = new InitiateOperation(numberOfNews,newsType);
+               objectFuture.complete(initiateOperation.getNewsData());
 
            },res->{
-
+               System.out.println("Result");
            });
         });
 

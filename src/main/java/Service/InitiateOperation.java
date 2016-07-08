@@ -2,6 +2,8 @@ package Service;
 
 import io.vertx.core.json.JsonObject;
 
+import java.io.IOException;
+
 /**
  * Created by iam on 7/7/16.
  */
@@ -16,10 +18,14 @@ public class InitiateOperation {
     }
 
     public JsonObject getNewsData(){
-        JsonObject requiredNews = new JsonObject();
-
-
-        return requiredNews;
+        Crawler crawler = new Crawler();
+        try {
+            System.out.println("Initiating Application");
+            return crawler.getNewsData(newsType,noOfNews);
+        } catch (IOException e) {
+            System.out.println("Error Fetching Data From Remote");
+        }
+        return null;
     }
 
 }

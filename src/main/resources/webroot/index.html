@@ -14,8 +14,8 @@
 
             $.ajax({
                 type:"POST",
-                url:"http://localhost:9000//fetchNews",
-                data:{noOfNews:noOfNews,newsType:newsType},
+                url:"http://localhost:9000/fetchNews/"+noOfNews+"/"+newsType,
+//                data:{noOfNews:noOfNews,newsType:newsType},
                 success:function (data) {
                     
                 },

@@ -19,19 +19,11 @@ import java.util.concurrent.Executors;
 public class Crawler{
 
 
-    public static void main(String[] args) {
-        try {
-
-            new Crawler().getNewsData("good",5);
-        } catch (IOException e) {
-            System.out.println("Remote Connection Failed.");
-        }
-    }
-
     private String kathmanduPostUrl = "http://kathmandupost.ekantipur.com/category/national";
     private String newsURL = "http://kathmandupost.ekantipur.com";
 
     public JsonObject getNewsData(String classifier ,int numberOfNews) throws IOException {
+
         JsonObject news = new JsonObject();
         List<News> newsList = getNewsList(classifier,numberOfNews);
         for(News n:newsList){
@@ -43,6 +35,7 @@ public class Crawler{
     }
 
     public List<News> getNewsList(String newsType,int numberOfNews) throws IOException {
+
         List<News> newsList = new ArrayList<>();
         Document doc = Jsoup.connect(kathmanduPostUrl).get();
         System.out.println("Connected to Remote URL");
@@ -73,11 +66,12 @@ public class Crawler{
                 } catch (IOException e) {
                     System.out.println("Error Fetching Data from "+newsUrl);
                 }
-                System.out.println(news.getTitle());
-                System.out.println(news.getDescription());
             }
         });
         executorService.shutdown();
+
+        newsStat.selectedNews.forEach((key,val)->newsList.add(new News(key,val)));
+
         return newsList;
     }
 
@@ -85,14 +79,12 @@ public class Crawler{
     public String getUrlContent(String url) throws IOException {
 
         String finalUrl = newsURL+url;
-//        System.out.println("finalUrl = " + finalUrl);
         Document doc =  Jsoup.connect(finalUrl).get();
         Elements newsContent = doc.select(".content-wrapper");
         Elements pTags = newsContent.select("p");
         pTags.remove(pTags.size()-1);
         StringBuilder fullNews = new StringBuilder("");
         pTags.forEach(p->fullNews.append(p.text()));
-//        System.out.println(fullNews.toString());
         return fullNews.toString();
     }
 
