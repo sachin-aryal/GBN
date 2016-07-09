@@ -79074,6 +79074,7 @@ traffic_jam,0.0
 traffic_lane,0.0
 traffic_pattern,0.0
 traffic_signal,0.0
+traffick,-0.75
 tragacanth,0.0
 tragedian,0.0
 tragedienne,0.0

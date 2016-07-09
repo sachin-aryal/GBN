@@ -2,10 +2,21 @@ package Service;
 
 import Model.News;
 import Model.NewsStat;
+import edu.stanford.nlp.ling.CoreLabel;
+import edu.stanford.nlp.ling.Sentence;
+import edu.stanford.nlp.ling.Word;
+import edu.stanford.nlp.objectbank.TokenizerFactory;
+import edu.stanford.nlp.process.PTBTokenizer;
 import edu.stanford.nlp.process.Stemmer;
+import edu.stanford.nlp.trees.Tree;
 
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Created by iam on 7/6/16.
@@ -15,6 +26,7 @@ public class PolarityCalculator extends Thread{
     private String newsType;
     private News news;
     private NewsStat newsStat;
+
     public PolarityCalculator(String newsType, News news, NewsStat newsStat){
         this.newsType = newsType;
         this.news = news;
@@ -108,18 +120,22 @@ public class PolarityCalculator extends Thread{
 
 
     public List<String> getTokenizedWords(String content){
+        TokenizerFactory<Word> tf = null;
+        tf = PTBTokenizer.factory();
+
+        List<Word> tokens_words = tf.getTokenizer(new StringReader(content)).tokenize();
+
         List<String> tokenizationCompleted = new ArrayList<>();
-        String[] tokenizedWords = content.split(" ");
-        for (String word:tokenizedWords){
-            word = word.trim().toLowerCase();
-            if(word.contains(",")){
-                String[] splittedWords = word.split(",");
-                tokenizationCompleted.add(splittedWords[0].replaceAll("[^a-z]",""));
-            }else{
-                word = word.replaceAll("[^a-zA-Z]","");
-                tokenizationCompleted.add(word);
-            }
-        }
+        Pattern p = Pattern.compile("[^a-z]");
+        tokens_words.stream()
+                .filter(item-> !p.matcher(item.word()).matches())
+                .collect(Collectors.toList())
+                .forEach(tokens->{
+                    String tokenizedWord = tokens.word().trim();
+                    if(!tokenizedWord.trim().equals("")){
+                        tokenizationCompleted.add(tokenizedWord);
+                    }
+                });
         return tokenizationCompleted;
     }
 

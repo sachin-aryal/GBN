@@ -47,22 +47,26 @@ public class Crawler{
 
         NewsStat newsStat = new NewsStat();
         System.out.println("Total Number of News Crawled are: "+links.size());
-        links.forEach(link->{
-            String newsUrl = link.attr("href");
-            String newsTitle =link.text();
+        System.out.println("Total Usable Links are: "+ links.stream().filter(link->link.attr("href").contains(".html"))
+                .collect(Collectors.toList()).size());
+        links
+                .stream()
+                .filter(link->link.attr("href").contains(".html"))
+                .collect(Collectors.toList())
+                .forEach(link->{
 
-            if(newsUrl.contains(".html")){
-                News news = new News();
-                news.setTitle(newsTitle);
+                    String newsUrl = link.attr("href");
+                    String newsTitle =link.text();
+                    News news = new News();
+                    news.setTitle(newsTitle);
 
-                try {
-                    news.setDescription(getUrlContent(newsUrl));
-                    executorService.execute(new PolarityCalculator(newsType,news,newsStat));
-                } catch (IOException e) {
-                    System.out.println("Error Fetching Data from "+newsUrl);
-                }
-            }
-        });
+                    try {
+                        news.setDescription(getUrlContent(newsUrl));
+                        executorService.execute(new PolarityCalculator(newsType,news,newsStat));
+                    } catch (IOException e) {
+                        System.out.println("Error Fetching Data from "+newsUrl);
+                    }
+                });
         executorService.shutdown();
         setBestResult(newsList,newsStat,newsType,numberOfNews);
         return newsList;
