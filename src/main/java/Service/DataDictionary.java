@@ -20,9 +20,8 @@ public class DataDictionary {
 
 
     public static Hashtable<String,Double> wordDictionary = new Hashtable<>();
-    public static List<String> wordsTobeIgnored = new ArrayList<>(Arrays.asList("the","is","a","an"));
-    public static List<String> negationWord = new ArrayList<>();
-
+    public static Hashtable<String,Integer> wordsTobeIgnored = new Hashtable<>();
+    public static Hashtable<String,Integer> negationWord = new Hashtable<>();
 
     public static void loadDictionary(){
 
@@ -45,11 +44,43 @@ public class DataDictionary {
         System.out.println("Total Number Of Words in Dictionary "+wordDictionary.size());
     }
 
-    public static Hashtable<String, Double> getWordDictionary() {
-        return wordDictionary;
+    public static void loadNegation(){
+
+
+        String projectDirectory = Paths.get(".").toAbsolutePath().normalize().toString();
+        String negationDirectory = projectDirectory+"/resources/negationword.txt";
+        long startTime,endTime;
+        try {
+            startTime = System.currentTimeMillis();
+            Files.newBufferedReader(Paths.get(negationDirectory)).lines().forEach(item->{
+                negationWord.put(item,0);
+            });
+            endTime = System.currentTimeMillis();
+            System.out.println("Negation Words Loaded Successfully.");
+            System.out.println("Elapsed time to load negation words "+(endTime-startTime)+" milliseconds.");
+        } catch (IOException e) {
+            System.out.println("Error Reading Negation Words From File.");
+        }
+        System.out.println("Total Number Of Negation Words In The File "+negationWord.size());
     }
 
-    public static void setWordDictionary(Hashtable<String, Double> wordDictionary) {
-        DataDictionary.wordDictionary = wordDictionary;
+    public static void loadStopWords(){
+
+
+        String projectDirectory = Paths.get(".").toAbsolutePath().normalize().toString();
+        String negationDirectory = projectDirectory+"/resources/stopword.txt";
+        long startTime,endTime;
+        try {
+            startTime = System.currentTimeMillis();
+            Files.newBufferedReader(Paths.get(negationDirectory)).lines().forEach(item->{
+                wordsTobeIgnored.put(item,0);
+            });
+            endTime = System.currentTimeMillis();
+            System.out.println("Stop Words Loaded Successfully.");
+            System.out.println("Elapsed time to load stop words "+(endTime-startTime)+" milliseconds.");
+        } catch (IOException e) {
+            System.out.println("Error Reading Stop Words From File.");
+        }
+        System.out.println("Total Number Of Stop Words In The File "+wordsTobeIgnored.size());
     }
 }

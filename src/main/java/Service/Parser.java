@@ -15,10 +15,14 @@ import java.util.stream.Collectors;
 
 
 public class Parser {
-    public Hashtable getDataFromFile(String file){
-        Hashtable dictionary = new Hashtable();
-        Path inPath = Paths.get(file);
-        Path outPath = Paths.get("/home/anons/Documents/project/sortedposnegword.txt");
+    public void getDataFromFile(String file){
+
+        String projectDirectory = Paths.get(".").toAbsolutePath().normalize().toString();
+        String dataDirectory = projectDirectory+file;
+
+        Path inPath = Paths.get(dataDirectory);
+        Path outPath = Paths.get(projectDirectory+"/resources/sortedposnegword.txt");
+
         Map<String,Double> itemMap = new TreeMap();
         try (BufferedReader reader = Files.newBufferedReader(inPath)) {
             reader.lines()
@@ -61,11 +65,10 @@ public class Parser {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return dictionary;
     }
 
     public static void main(String[] args) {
         Parser pa = new Parser();
-        pa.getDataFromFile("/home/anons/Documents/project/sentiword.txt");
+        pa.getDataFromFile("/resources/sentiword.txt");
     }
 }

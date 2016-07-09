@@ -16,7 +16,9 @@ public class RequestController extends AbstractVerticle{
     public static void main(String[] args) {
 
         DataDictionary.loadDictionary();
-        if (DataDictionary.wordDictionary.size()==0){
+        DataDictionary.loadNegation();
+        DataDictionary.loadStopWords();
+        if (DataDictionary.wordDictionary.size()==0&&DataDictionary.negationWord.size()==0&&DataDictionary.wordsTobeIgnored.size()==0){
             System.out.println("Please View the Error Log and Restart Again");
             System.exit(0);
         }

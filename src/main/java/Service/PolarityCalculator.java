@@ -15,7 +15,6 @@ public class PolarityCalculator extends Thread{
     private String newsType;
     private News news;
     private NewsStat newsStat;
-
     public PolarityCalculator(String newsType, News news, NewsStat newsStat){
         this.newsType = newsType;
         this.news = news;
@@ -53,11 +52,11 @@ public class PolarityCalculator extends Thread{
         Stemmer s = new Stemmer();
 
         //// TODO: 7/7/16 Calculating Polarity for News Title and Content
-        double titlePolarity = 0.0;
-        int itemIndex = 0;
+        double titlePolarity = calculatePolarity(tokenizedTitle);
+        /*int itemIndex = 0;
         for (String item:tokenizedTitle) {
             String stemmeredWord = s.stem(item);
-            if (DataDictionary.wordDictionary.get(stemmeredWord)!=null){
+            if (!DataDictionary.wordsTobeIgnored.contains(stemmeredWord)){
                 double tempPolarity = DataDictionary.wordDictionary.get(stemmeredWord);
                 if(itemIndex>0){
                     String previousWord = tokenizedTitle.get(itemIndex-1);
@@ -74,10 +73,11 @@ public class PolarityCalculator extends Thread{
             }
             itemIndex++;
 
-        }
-        double contentPolarity = 0.0;
+
+        }*/
         System.out.println("News Title: "+news.getTitle()+" and Polarity: "+titlePolarity);
-        for (String item:tokenizedContent) {
+
+        /*for (String item:tokenizedContent) {
             String stemmeredWord = s.stem(item);
             if (DataDictionary.wordDictionary.get(stemmeredWord) != null) {
                 double tempPolarity = DataDictionary.wordDictionary.get(stemmeredWord);
@@ -93,7 +93,9 @@ public class PolarityCalculator extends Thread{
                 }
                 contentPolarity += tempPolarity;
             }
-        }
+        }*/
+        double contentPolarity = calculatePolarity(tokenizedContent);
+
         System.out.println("After Content Polarity is "+contentPolarity);
 
         polarity = ((titlePolarity*6)/10)+((contentPolarity*4)/10);
@@ -119,5 +121,33 @@ public class PolarityCalculator extends Thread{
             }
         }
         return tokenizationCompleted;
+    }
+
+    public double calculatePolarity(List<String> tokenizedWord){
+        Stemmer s = new Stemmer();
+        double polarity=0.0;
+        int itemIndex = 0;
+        for (String item:tokenizedWord) {
+            String stemmeredWord = s.stem(item);
+            if (!DataDictionary.wordsTobeIgnored.contains(stemmeredWord)){
+                if (DataDictionary.wordDictionary.get(stemmeredWord) != null) {
+                    double tempPolarity = DataDictionary.wordDictionary.get(stemmeredWord);
+                    if (itemIndex > 0) {
+                        String previousWord = tokenizedWord.get(itemIndex - 1);
+                        if (DataDictionary.negationWord.contains(previousWord)) {
+                            if (tempPolarity < 0) {
+                                tempPolarity = Math.abs(tempPolarity);
+                            } else {
+                                tempPolarity = tempPolarity * -1;
+                            }
+                        }
+                    }
+                    System.out.println("Key Word: " + stemmeredWord + " and Polarity: " + tempPolarity);
+                    polarity += tempPolarity;
+                }
+            }
+            itemIndex++;
+        }
+        return polarity;
     }
 }
