@@ -89,7 +89,9 @@ public class PolarityCalculator extends Thread{
                 .forEach(tokens->{
                     String tokenizedWord = tokens.word().trim();
                     if(!tokenizedWord.trim().equals("")){
-                        tokenizationCompleted.add(tokenizedWord);
+                        if (!DataDictionary.wordsTobeIgnored.contains(tokenizedWord)) {
+                            tokenizationCompleted.add(tokenizedWord);
+                        }
                     }
                 });
         return tokenizationCompleted;
@@ -101,23 +103,22 @@ public class PolarityCalculator extends Thread{
         int itemIndex = 0;
         for (String item:tokenizedWord) {
             String stemmeredWord = s.stem(item);
-            if (!DataDictionary.wordsTobeIgnored.contains(stemmeredWord)){
-                if (DataDictionary.wordDictionary.get(stemmeredWord) != null) {
-                    double tempPolarity = DataDictionary.wordDictionary.get(stemmeredWord);
-                    if (itemIndex > 0) {
-                        String previousWord = tokenizedWord.get(itemIndex - 1);
-                        if (DataDictionary.negationWord.contains(previousWord)) {
-                            if (tempPolarity < 0) {
-                                tempPolarity = Math.abs(tempPolarity);
-                            } else {
-                                tempPolarity = tempPolarity * -1;
-                            }
+            if (DataDictionary.wordDictionary.get(stemmeredWord) != null) {
+                double tempPolarity = DataDictionary.wordDictionary.get(stemmeredWord);
+                if (itemIndex > 0) {
+                    String previousWord = tokenizedWord.get(itemIndex - 1);
+                    if (DataDictionary.negationWord.contains(previousWord)) {
+                        if (tempPolarity < 0) {
+                            tempPolarity = Math.abs(tempPolarity);
+                        } else {
+                            tempPolarity = tempPolarity * -1;
                         }
                     }
-                    System.out.println("Key Word: " + stemmeredWord + " and Polarity: " + tempPolarity);
-                    polarity += tempPolarity;
                 }
+                System.out.println("Key Word: " + stemmeredWord + " and Polarity: " + tempPolarity);
+                polarity += tempPolarity;
             }
+
             itemIndex++;
         }
         return polarity;
