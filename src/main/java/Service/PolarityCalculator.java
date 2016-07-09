@@ -2,6 +2,7 @@ package Service;
 
 import Model.News;
 import Model.NewsStat;
+import edu.stanford.nlp.process.Stemmer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,18 +50,56 @@ public class PolarityCalculator extends Thread{
         double polarity = 0.0;
         List<String> tokenizedTitle = getTokenizedWords(news.getTitle());
         List<String> tokenizedContent = getTokenizedWords(news.getDescription());
+        Stemmer s = new Stemmer();
 
         //// TODO: 7/7/16 Calculating Polarity for News Title and Content
+        double titlePolarity = 0.0;
+        int itemIndex = 0;
         for (String item:tokenizedTitle) {
-            if (DataDictionary.wordDictionary.get(item)!=null){
-                polarity+= DataDictionary.wordDictionary.get(item);
+            String stemmeredWord = s.stem(item);
+            if (DataDictionary.wordDictionary.get(stemmeredWord)!=null){
+                double tempPolarity = DataDictionary.wordDictionary.get(stemmeredWord);
+                if(itemIndex>0){
+                    String previousWord = tokenizedTitle.get(itemIndex-1);
+                    if(DataDictionary.negationWord.contains(previousWord)){
+                        if(tempPolarity<0){
+                            tempPolarity = Math.abs(tempPolarity);
+                        }else{
+                            tempPolarity = tempPolarity*-1;
+                        }
+                    }
+                }
+                System.out.println("Key Word: "+stemmeredWord+" and Polarity: "+tempPolarity);
+                titlePolarity+= tempPolarity;
+            }
+            itemIndex++;
+
+        }
+        double contentPolarity = 0.0;
+        System.out.println("News Title: "+news.getTitle()+" and Polarity: "+titlePolarity);
+        for (String item:tokenizedContent) {
+            String stemmeredWord = s.stem(item);
+            if (DataDictionary.wordDictionary.get(stemmeredWord) != null) {
+                double tempPolarity = DataDictionary.wordDictionary.get(stemmeredWord);
+                if (itemIndex > 0) {
+                    String previousWord = tokenizedTitle.get(itemIndex - 1);
+                    if (DataDictionary.negationWord.contains(previousWord)) {
+                        if (tempPolarity < 0) {
+                            tempPolarity = Math.abs(tempPolarity);
+                        } else {
+                            tempPolarity = tempPolarity * -1;
+                        }
+                    }
+                }
+                contentPolarity += tempPolarity;
             }
         }
-        for (String item:tokenizedContent){
-            if (DataDictionary.wordDictionary.get(item)!=null){
-                polarity+= DataDictionary.wordDictionary.get(item);
-            }
-        }
+        System.out.println("After Content Polarity is "+contentPolarity);
+
+        polarity = ((titlePolarity*6)/10)+((contentPolarity*4)/10);
+
+        System.out.println("Final Polarity: "+polarity);
+
         return polarity;
     }
 

@@ -21,6 +21,7 @@ public class DataDictionary {
 
     public static Hashtable<String,Double> wordDictionary = new Hashtable<>();
     public static List<String> wordsTobeIgnored = new ArrayList<>(Arrays.asList("the","is","a","an"));
+    public static List<String> negationWord = new ArrayList<>();
 
 
     public static void loadDictionary(){

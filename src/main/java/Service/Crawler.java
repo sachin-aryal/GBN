@@ -29,6 +29,7 @@ public class Crawler{
         JsonObject news = new JsonObject();
         List<News> newsList = getNewsList(classifier,numberOfNews);
         newsList.forEach(n->news.put(n.getTitle(),n.getDescription()));
+        System.out.println("Total Number of News Returned: "+newsList.size());
         return news;
     }
 
@@ -45,7 +46,7 @@ public class Crawler{
         Elements links = newsWrapper.select("a[href]");
 
         NewsStat newsStat = new NewsStat();
-
+        System.out.println("Total Number of News Crawled are: "+links.size());
         links.forEach(link->{
             String newsUrl = link.attr("href");
             String newsTitle =link.text();

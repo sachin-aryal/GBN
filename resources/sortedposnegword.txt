@@ -23849,7 +23849,7 @@ forficulidae,-0.125
 forge,0.0
 forged,-0.75
 forger,0.0
-forgery,0.0
+forgery,-0.75
 forget,-0.75
 forgetfully,0.25
 forgetfulness,-0.25
@@ -36740,7 +36740,7 @@ kiggelaria,0.0
 kikladhes,0.0
 kilderkin,0.0
 kiliwi,0.0
-kill,0.625
+kill,-0.625
 kill_off,0.0
 killable,0.125
 killdeer_plover,0.0
