@@ -1,7 +1,7 @@
-'hood,-0.375
-.22_calibre,0.0
-.38_calibre,0.0
-.45_calibre,0.0
+hood,-0.375
+22_calibre,0.0
+38_calibre,0.0
+45_calibre,0.0
 1530s,0.0
 15_may_organization,0.0
 1750s,0.0
