@@ -10,6 +10,9 @@
 .idea/tasks.xml
 .idea/dictionaries
 .idea/vcs.xml
+.idea/profiles_settings.xml
+.idea/misc.xml
+.idea/Project_Default.xml
 .idea/jsLibraryMappings.xml
 
 # Sensitive or high-churn files:
@@ -81,3 +84,6 @@ buildNumber.properties
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+.vertx/
+lib/
+src/test/
