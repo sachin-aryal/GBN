@@ -11,10 +11,11 @@
 
             var noOfNews = $("#noOfNews").val();
             var newsType = $("#newsType").val();
+            var newsSource = $("#newsSource").val();
             $("#myModal").modal("show");
             $.ajax({
                 type:"POST",
-                url:"http://localhost:9000/fetchNews/"+noOfNews+"/"+newsType,
+                url:"http://localhost:9000/fetchNews/"+noOfNews+"/"+newsType+"/"+newsSource,
                 success:function (data) {
                     $("#news").empty();
                     var newsNumber = 0;
@@ -92,10 +93,14 @@
             padding: 10px;
             box-sizing: border-box;
         }
-        .form-login input{
+        .form-login input, select{
             margin-bottom: 25px;
             border-radius: 0;
         }
+       /* .form-login select{
+            margin-bottom: 25px;
+            border-radius: 0;
+        }*/
         .btn{
             margin-top: 25px;
             background-color: #6db2f0;
@@ -118,6 +123,11 @@
             </div>
             <fieldset class="form-login">
                 <legend>
+                    <select name="newsSource" id="newsSource" class="form-control">
+                        <option>--Select News Source--</option>
+                        <option value="KathmanduPost">Kathmandu Post</option>
+                        <option value="BBCNews">BBC News</option>
+                    </select>
                     <input type="text" name="noOfNews" id="noOfNews" class="form-control" placeholder="Number of News"/>
                     <select name="newsType" id="newsType" class="form-control">
                         <option>--Select News Type--</option>

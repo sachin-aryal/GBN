@@ -45,12 +45,12 @@ public class RequestController extends AbstractVerticle{
         router.route("/images/*").handler(StaticHandler.create("webroot/images"));
 
 
-        router.route("/fetchNews/:noOfNews/:newsType/*").handler(rtx->{
+        router.route("/fetchNews/:noOfNews/:newsType/:newsSource/*").handler(rtx->{
            vertx.executeBlocking(objectFuture -> {
-
+               String newsSource = rtx.request().getParam("newsSource");
                int numberOfNews = Integer.parseInt(rtx.request().getParam("noOfNews"));
                String newsType = rtx.request().getParam("newsType");
-               InitiateOperation initiateOperation = new InitiateOperation(numberOfNews,newsType);
+               InitiateOperation initiateOperation = new InitiateOperation(numberOfNews,newsType,newsSource);
                objectFuture.complete(initiateOperation.getNewsData());
 
            },res->{
