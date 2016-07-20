@@ -60,15 +60,15 @@ public class PolarityCalculator extends Thread{
 
         //// TODO: 7/7/16 Calculating Polarity for News Title and Content
         double titlePolarity = calculatePolarity(tokenizedTitle);
-        System.out.println("News Title: "+news.getTitle()+" and Polarity: "+titlePolarity);
+//        System.out.println("News Title: "+news.getTitle()+" and Polarity: "+titlePolarity);
 
         double contentPolarity = calculatePolarity(tokenizedContent);
 
-        System.out.println("After Content Polarity is "+contentPolarity);
+//        System.out.println("After Content Polarity is "+contentPolarity);
 
         polarity = ((titlePolarity*6)/10)+((contentPolarity*4)/10);
 
-        System.out.println("Final Polarity: "+polarity);
+//        System.out.println("Final Polarity: "+polarity);
 
         return polarity;
     }
@@ -115,7 +115,7 @@ public class PolarityCalculator extends Thread{
                         }
                     }
                 }
-                System.out.println("Key Word: " + stemmeredWord + " and Polarity: " + tempPolarity);
+//                System.out.println("Key Word: " + stemmeredWord + " and Polarity: " + tempPolarity);
                 polarity += tempPolarity;
             }
 

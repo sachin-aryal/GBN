@@ -30,14 +30,13 @@ public class InitiateOperation {
     }
 
     public JsonObject getNewsData(){
-        CrawlerFactory crawlerFactory = new CrawlerFactory();
         System.out.println(newsSource);
-        Crawler crawler1 = crawlerFactory.getCrawler(newsSource);
+        Crawler crawler = CrawlerFactory.getCrawler(newsSource);
         try {
             System.out.println("Initiating Application");
             List<News> newsToDisplay = new ArrayList<>();
             JsonObject news = new JsonObject();
-            List<News> newsList = crawler1.getNewsList();
+            List<News> newsList = crawler.getNewsList();
 
             ExecutorService executorService = Executors.newFixedThreadPool(5);
             NewsStat newsStat = new NewsStat();
@@ -59,7 +58,7 @@ public class InitiateOperation {
             setBestResult(newsToDisplay,newsStat,newsType,noOfNews);
 
             newsToDisplay.forEach(n->news.put(n.getTitle(),n.getDescription()));
-            System.out.println("Total Number of News Returned: "+newsList.size());
+//            System.out.println("Total Number of News Returned: "+newsList.size());
             return news;
         } catch (IOException e) {
             System.out.println("Error Fetching Data From Remote");

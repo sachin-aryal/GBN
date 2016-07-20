@@ -8,7 +8,7 @@ import Service.KathmanduPost;
  * Created by anons on 7/19/16.
  */
 public class CrawlerFactory {
-    public Crawler getCrawler(String crawlerType){
+    public static Crawler getCrawler(String crawlerType){
         if (crawlerType==null){
             return null;
         }
