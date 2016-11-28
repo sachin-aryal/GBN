@@ -19,13 +19,13 @@ public class KathmanduPost implements Crawler {
     private String kathmanduPostUrl = "http://kathmandupost.ekantipur.com/category/national";
     private String newsURL = "http://kathmandupost.ekantipur.com";
 
-/*    public JsonObject getNewsData() throws IOException {
-        JsonObject news = new JsonObject();
-        List<News> newsList = getNewsList();
-        newsList.forEach(n->news.put(n.getTitle(),n.getDescription()));
-        System.out.println("Total Number of News Returned: "+newsList.size());
-        return news;
-    }*/
+    /*    public JsonObject getNewsData() throws IOException {
+            JsonObject news = new JsonObject();
+            List<News> newsList = getNewsList();
+            newsList.forEach(n->news.put(n.getTitle(),n.getDescription()));
+            System.out.println("Total Number of News Returned: "+newsList.size());
+            return news;
+        }*/
     @Override
     public List<News> getNewsList() throws IOException {
 
@@ -62,13 +62,17 @@ public class KathmanduPost implements Crawler {
     }
 
     public String getUrlContent(String url) throws IOException {
-        String finalUrl = newsURL+url;
-        Document doc =  Jsoup.connect(finalUrl).get();
-        Elements newsContent = doc.select(".content-wrapper");
-        Elements pTags = newsContent.select("p");
-        pTags.remove(pTags.size()-1);
         StringBuilder fullNews = new StringBuilder("");
-        pTags.forEach(p->fullNews.append(p.text()));
+        try {
+            String finalUrl = newsURL+url;
+            Document doc =  Jsoup.connect(finalUrl).get();
+            Elements newsContent = doc.select(".content-wrap");
+            Elements pTags = newsContent.select("p");
+            pTags.remove(pTags.size()-1);
+            pTags.forEach(p -> fullNews.append(p.text()));
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
         return fullNews.toString();
     }
 }

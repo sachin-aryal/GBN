@@ -89,7 +89,7 @@ public class PolarityCalculator extends Thread{
                 .forEach(tokens->{
                     String tokenizedWord = tokens.word().trim();
                     if(!tokenizedWord.trim().equals("")){
-                        if (!DataDictionary.wordsTobeIgnored.contains(tokenizedWord)) {
+                        if (!DataDictionary.wordsTobeIgnored.keySet().contains(tokenizedWord)) {
                             tokenizationCompleted.add(tokenizedWord);
                         }
                     }
@@ -107,7 +107,7 @@ public class PolarityCalculator extends Thread{
                 double tempPolarity = DataDictionary.wordDictionary.get(stemmeredWord);
                 if (itemIndex > 0) {
                     String previousWord = tokenizedWord.get(itemIndex - 1);
-                    if (DataDictionary.negationWord.contains(previousWord)) {
+                    if (DataDictionary.negationWord.keySet().contains(previousWord)) {
                         if (tempPolarity < 0) {
                             tempPolarity = Math.abs(tempPolarity);
                         } else {
