@@ -13,28 +13,24 @@ import io.vertx.ext.web.handler.StaticHandler;
  */
 public class RequestController extends AbstractVerticle{
 
-    public static void main(String[] args) {
-
-        DataDictionary.loadDictionary();
-        DataDictionary.loadNegation();
-        DataDictionary.loadStopWords();
-        if (DataDictionary.wordDictionary.size()==0&&DataDictionary.negationWord.size()==0&&DataDictionary.wordsTobeIgnored.size()==0){
-            System.out.println("Please View the Error Log and Restart Again");
-            System.exit(0);
-        }
-        System.out.println("Deploying Verticle");
-        Vertx vertx = Vertx.vertx();
-        vertx.deployVerticle(new RequestController());
-
-    }
-
     @Override
     public void start() throws Exception {
         System.out.println("Verticle Deployed Successfully.");
 
         Router router = Router.router(vertx);
         vertx.createHttpServer().requestHandler(router::accept).listen(9000);
-
+        System.out.println(" .----------------.  .----------------.  .-----------------.\n" +
+                "| .--------------. || .--------------. || .--------------. |\n" +
+                "| |    ______    | || |   ______     | || | ____  _____  | |\n" +
+                "| |  .' ___  |   | || |  |_   _ \\    | || ||_   \\|_   _| | |\n" +
+                "| | / .'   \\_|   | || |    | |_) |   | || |  |   \\ | |   | |\n" +
+                "| | | |    ____  | || |    |  __'.   | || |  | |\\ \\| |   | |\n" +
+                "| | \\ `.___]  _| | || |   _| |__) |  | || | _| |_\\   |_  | |\n" +
+                "| |  `._____.'   | || |  |_______/   | || ||_____|\\____| | |\n" +
+                "| |              | || |              | || |              | |\n" +
+                "| '--------------' || '--------------' || '--------------' |\n" +
+                " '----------------'  '----------------'  '----------------' \n");
+        System.out.println("Server running on: http://localhost:9000/");
         router.route("/").handler(rtx->{
            rtx.response().setChunked(true);
            rtx.response().sendFile("webroot/index.html");
