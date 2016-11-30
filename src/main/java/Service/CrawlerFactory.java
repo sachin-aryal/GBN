@@ -21,9 +21,9 @@ public class CrawlerFactory {
         else if (crawlerType.equalsIgnoreCase("MyRepublica")){
             return new MyRepublica();
         }
-//        else if (crawlerType.equalsIgnoreCase("FoxNews")){
-//            return new FoxNews();
-//        }
+        else if (crawlerType.equalsIgnoreCase("FoxNews")){
+            return new FoxNews();
+        }
         else{
             return new KathmanduPost();
         }
