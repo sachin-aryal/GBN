@@ -15,7 +15,8 @@
             $("#myModal").modal("show");
             $.ajax({
                 type:"POST",
-                url:"http://localhost:9000/fetchNews/"+noOfNews+"/"+newsType+"/"+newsSource,
+                //url:"http://localhost:9000/fetchNews/"+noOfNews+"/"+newsType+"/"+newsSource,
+                url:"http://192.168.5.250:9000/fetchNews/"+noOfNews+"/"+newsType+"/"+newsSource,
                 success:function (data) {
                     $("#news").empty();
                     var newsNumber = 0;
