@@ -19,7 +19,7 @@ public class CrawlerFactory {
             return new BBCNews();
         }
         else if (crawlerType.equalsIgnoreCase("MyRepublica")){
-            //return new MyRepublica();
+            return new MyRepublica();
         }
 //        else if (crawlerType.equalsIgnoreCase("FoxNews")){
 //            return new FoxNews();
@@ -27,6 +27,6 @@ public class CrawlerFactory {
         else{
             return new KathmanduPost();
         }
-        return null;
+
     }
 }
